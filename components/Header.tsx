@@ -1,3 +1,6 @@
+import Link from 'next/link'
+import ProfileIcon from './ProfileIcon'
+
 export default function Header() {
   return (
     <div className="absolute top-0 px-6 w-screen flex items-center justify-between border-b border-neutral-500">
@@ -7,7 +10,7 @@ export default function Header() {
             <h1 className="text-2xl font-bold">Tintio</h1>
         </div>
         <div>
-                        
+          <ProfileIcon />
         </div>
     </div>    
   )
