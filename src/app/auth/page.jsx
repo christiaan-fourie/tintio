@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore'; // Import serverTimestamp
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -23,7 +23,7 @@ export default function Auth() {
       uid: user.uid,
       displayName: displayName || user.displayName,
       email: user.email,
-      createdAt: new Date().toISOString(),
+      createdAt: serverTimestamp(), // Use serverTimestamp() instead of new Date()
       palettes: []
     });
   };
