@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,17 +35,22 @@ export default function Home() {
       {/* Navigation */}
       <nav className="flex items-center justify-between p-6 bg-white/10 backdrop-blur-lg">
         <div className="flex items-center space-x-2">
-          <Image src="/logo.svg" alt="Tintio Logo" width={42} height={42} className="rounded-lg" />
+          <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-violet-500 rounded-lg"></div>
           <h1 className="text-2xl font-bold text-white">Tintio</h1>
         </div>
-        <button className="px-6 py-2 bg-gradient-to-r from-pink-500 to-violet-500 text-white rounded-lg hover:from-pink-600 hover:to-violet-600 transition-all duration-300 shadow-lg">
-          Get Started
-        </button>
+        <div className="flex items-center space-x-4">
+          <Link href="/auth" className="px-4 py-2 text-white hover:text-pink-300 transition-colors">
+            Sign In
+          </Link>
+          <Link href="/auth" className="px-6 py-2 bg-gradient-to-r from-pink-500 to-violet-500 text-white rounded-lg hover:from-pink-600 hover:to-violet-600 transition-all duration-300 shadow-lg">
+            Get Started
+          </Link>
+        </div>
       </nav>
 
       {/* Hero Section */}
       <section className="text-center py-20 px-6">
-        <h2 className="text-5xl md:text-7xl font-bold text-white mb-6 bg-gradient-to-r from-pink-400 to-violet-400 bg-clip-text">
+        <h2 className="text-5xl md:text-7xl font-bold text-white mb-6 bg-gradient-to-r from-pink-400 to-violet-400 bg-clip-text text-transparent">
           Create Perfect
           <br />
           Color Palettes
@@ -54,9 +60,9 @@ export default function Home() {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-          <button className="px-8 py-4 bg-gradient-to-r from-pink-500 to-violet-500 text-white rounded-lg text-lg font-semibold hover:from-pink-600 hover:to-violet-600 transition-all duration-300 shadow-xl">
+          <Link href="/auth" className="px-8 py-4 bg-gradient-to-r from-pink-500 to-violet-500 text-white rounded-lg text-lg font-semibold hover:from-pink-600 hover:to-violet-600 transition-all duration-300 shadow-xl">
             Start Creating
-          </button>
+          </Link>
           <button className="px-8 py-4 border-2 border-white/30 text-white rounded-lg text-lg font-semibold hover:bg-white/10 transition-all duration-300">
             View Gallery
           </button>
