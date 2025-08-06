@@ -1,11 +1,31 @@
 'use client'
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  // Redirect if user is authenticated
+  useEffect(() => {
+    if (!loading && user) {
+      router.push('/dashboard');
+    }
+  }, [user, loading, router]);
+
+  // Show loading state while checking auth
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
+    );
+  }
 
   const features = [
     {
@@ -35,22 +55,44 @@ export default function Home() {
       {/* Navigation */}
       <nav className="flex items-center justify-between p-6 bg-white/10 backdrop-blur-lg">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-violet-500 rounded-lg"></div>
+          <Image
+            src="/logo.svg"
+            alt="Tintio Logo"
+            width={42}
+            height={42}
+          />
           <h1 className="text-2xl font-bold text-white">Tintio</h1>
         </div>
         <div className="flex items-center space-x-4">
-          <Link href="/auth" className="px-4 py-2 text-white hover:text-pink-300 transition-colors">
-            Sign In
-          </Link>
-          <Link href="/auth" className="px-6 py-2 bg-gradient-to-r from-pink-500 to-violet-500 text-white rounded-lg hover:from-pink-600 hover:to-violet-600 transition-all duration-300 shadow-lg">
-            Get Started
-          </Link>
+          {user ? (
+            <Link 
+              href="/dashboard" 
+              className="px-6 py-2 bg-gradient-to-r from-pink-500 to-violet-500 text-white rounded-lg hover:from-pink-600 hover:to-violet-600 transition-all duration-300 shadow-lg"
+            >
+              Go to Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link 
+                href="/auth" 
+                className="px-4 py-2 text-white hover:text-pink-300 transition-colors"
+              >
+                Sign In
+              </Link>
+              <Link 
+                href="/auth" 
+                className="px-6 py-2 bg-gradient-to-r from-pink-500 to-violet-500 text-white rounded-lg hover:from-pink-600 hover:to-violet-600 transition-all duration-300 shadow-lg"
+              >
+                Get Started
+              </Link>
+            </>
+          )}
         </div>
       </nav>
 
       {/* Hero Section */}
       <section className="text-center py-20 px-6">
-        <h2 className="text-5xl md:text-7xl font-bold text-white mb-6 bg-gradient-to-r from-pink-400 to-violet-400 bg-clip-text text-transparent">
+        <h2 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-pink-400 to-violet-400 bg-clip-text text-transparent">
           Create Perfect
           <br />
           Color Palettes
