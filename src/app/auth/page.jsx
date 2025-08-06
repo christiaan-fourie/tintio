@@ -1,11 +1,14 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore'; // Import serverTimestamp
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
+import Image from 'next/image';
+
 
 export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -15,7 +18,29 @@ export default function Auth() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const { user, loading: authLoading } = useAuth();
   const router = useRouter();
+
+  // Redirect if user is already authenticated
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.push('/dashboard');
+    }
+  }, [user, authLoading, router]);
+
+  // Show loading state while checking auth
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
+    );
+  }
+
+  // If user is authenticated, don't render the auth form
+  if (user) {
+    return null;
+  }
 
   const createUserDocument = async (user, displayName) => {
     const userRef = doc(db, 'users', user.uid);
@@ -85,7 +110,12 @@ export default function Auth() {
       <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 w-full max-w-md shadow-2xl">
         <div className="text-center mb-8">
           <Link href="/" className="flex items-center justify-center space-x-2 mb-4">
-            <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-violet-500 rounded-lg"></div>
+            <Image
+              src="/logo.svg"
+              alt="Tintio Logo"
+              width={42}
+              height={42}
+            />
             <h1 className="text-2xl font-bold text-white">Tintio</h1>
           </Link>
           <h2 className="text-3xl font-bold text-white mb-2">
