@@ -3,6 +3,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import Image from 'next/image';
 
 export default function Dashboard() {
   const { user, loading, logout } = useAuth();
@@ -30,7 +31,12 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white">
       <nav className="flex items-center justify-between p-6 bg-white/10 backdrop-blur-lg">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-violet-500 rounded-lg"></div>
+          <Image
+            src="/logo.svg"
+            alt="Tintio Logo"
+            width={42}
+            height={42}
+          />
           <h1 className="text-2xl font-bold text-white">Tintio</h1>
         </div>
         <div className="flex items-center space-x-4">
