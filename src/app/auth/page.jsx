@@ -47,10 +47,10 @@ export default function Auth() {
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }
-      router.push('/dashboard');
+      // Force a hard redirect instead of using the router
+      window.location.href = '/dashboard';
     } catch (error) {
       setError(error.message);
-    } finally {
       setLoading(false);
     }
   };
@@ -63,10 +63,10 @@ export default function Auth() {
     try {
       const { user } = await signInWithPopup(auth, provider);
       await createUserDocument(user);
-      router.push('/dashboard');
+      // Force a hard redirect instead of using the router
+      window.location.href = '/dashboard';
     } catch (error) {
       setError(error.message);
-    } finally {
       setLoading(false);
     }
   };
